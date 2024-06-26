@@ -71,7 +71,7 @@ const {Usuario,
 //      }
      
  else {
-     return res.status(200).json({ message: 'login existoso.', token: crearToken(user), userId: user.idUsuario });
+     return res.status(200).json({ message: 'login existoso.', token: crearToken(user), userId: user.idUsuario, idPerfil: user.idPerfil });
 
  }
    } catch (e) {
@@ -100,15 +100,13 @@ const {Usuario,
      const usuarioActualizado = { ...usuarioExistente, ...nuevoUsuarioData };
  
      const [result] = await pool.execute(
-       'UPDATE usuario SET idPerfil = ?, idcentro_formacion = ?, IdentificacionUsuario = ?, nombreUsuario = ?, apellidoUsuario = ?,  emailUsuario = ?, password = ?, = ? WHERE idUsuario = ?',
+       'UPDATE usuarios SET  idPerfil = ? , IdentificacionUsuario = ? , nombreUsuario = ? , apellidoUsuario = ? ,  emailUsuario = ? WHERE idUsuario = ?',
        [
          usuarioActualizado.idPerfil,
-         usuarioActualizado.idcentro_formacion,
          usuarioActualizado.IdentificacionUsuario,
          usuarioActualizado.nombreUsuario,
          usuarioActualizado.apellidoUsuario,
          usuarioActualizado.emailUsuario,
-         usuarioActualizado.password,
          idUsuario
        ]
      );
@@ -247,7 +245,6 @@ const {Usuario,
        }
      });
  
-     // Enviar el correo electrónico
      const info = await transporter.sendMail(correoOptions);
      console.log('Correo electrónico enviado:', info.response);
    } catch (error) {

@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import './landingPage.css';
 import { iniciarSesion } from "../../services/login/iniciarSesion";
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,7 @@ const LandingPage = () => {
     try {
       const userData = await iniciarSesion(emailUsuario, password);
       console.log('Usuario autenticado:', userData);
-      navigate('/dashboard');
+      navigate('/dashboard'); 
     } catch (error) {
       setError('Credenciales inválidas. Por favor, intenta nuevamente.');
       console.error('Error al iniciar sesión:', error);

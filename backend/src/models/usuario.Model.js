@@ -6,9 +6,19 @@ const pool = require('../config/database');
 const Usuario = {
   findAll: function() {
     const sql = `
-     SELECT usuarios.*, Perfil.Perfil AS nombre_Perfil
-FROM usuarios
-INNER JOIN Perfil ON usuarios.idPerfil = Perfil.idPerfil
+      SELECT 
+      usuarios.idUsuario,
+      usuarios.nombreUsuario,
+      usuarios.apellidoUsuario,
+      usuarios.IdentificacionUsuario,
+      usuarios.idPerfil,
+      usuarios.emailUsuario,
+      Perfil.Perfil
+    FROM 
+      usuarios
+    JOIN 
+      Perfil ON usuarios.idPerfil = Perfil.idPerfil
+    
     `;
     return pool.execute(sql);
   },
@@ -27,15 +37,17 @@ async function findOneByEmail(emailUsuario) {
 async function findByPk(idUsuario) {
   try {
     const query = `
-      SELECT 
-        usuarios.*,
-        Perfil.Perfil
-      FROM 
-        usuarios
-      JOIN 
-        Perfil ON usuarios.idPerfil = Perfil.idPerfil
-      WHERE 
-        usuarios.idUsuario = ?
+     SELECT 
+      usuarios.nombreUsuario,
+      usuarios.apellidoUsuario,
+      usuarios.IdentificacionUsuario,
+      usuarios.idPerfil,
+      usuarios.emailUsuario
+	 FROM 
+      usuarios
+    
+    WHERE 
+      usuarios.idUsuario = ?
     `;
 
     const [rows, fields] = await pool.execute(query, [idUsuario]);
